@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>JavaScript GlobTest</h2>
+    <div id="exp1"></div>
+    <div id="exp2"></div>
+    <script>
+      function shared(a, b) {
+        return ((a[0] >= b[0] && a[0] <= b[1]) || (a[1] >= b[0] && a[1] <= b[1]) || (b[0] >= a[0] && b[0] <= a[1]) || (b[1] >= a[0] && b[1] <= a[1]))
+      }
+      function foo(arr) {
+        let result = [];
+        arr.forEach((element1, index1) => {
+          if (element1 !== 0) {
+            arr.forEach((element2, index2) => {
+              if (index1 !== index2) {
+                if (element2 !== 0 && shared(element1, element2)) {
+                  if (element1[0] >= element2[0] && element1[1] <= element2[1]) {
+                    element1[0] = element2[0];
+                    element1[1] = element2[1];
+                    arr[index2] = 0;
+                  }
+                  if (element1[0] >= element2[0] && element1[1] > element2[1]) {
+                    element1[0] = element2[0];
+                    arr[index2] = 0;
+                  }
+                  if (element1[0] <= element2[0] && element1[1] <= element2[1]) {
+                    element1[1] = element2[1];
+                    arr[index2] = 0;
+                  }
+                }
+              }
+            })
+          }
+        })
+        return arr.filter(elem => elem !== 0);
+      }
+      document.getElementById("exp1").innerHTML = foo([[0, 3], [6, 10]]);
+      document.getElementById("exp2").innerHTML = foo([[3, 6], [3, 4], [15, 20], [16, 17], [1, 4], [6, 10], [3, 6]]);
+    </script>
+  </body>
+
+</html>
